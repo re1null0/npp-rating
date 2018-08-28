@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Все специальности</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Код</th>
+      <th>Специальность</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @speciality_pulls.each do |speciality_pull| %>
+      <tr>
+        <td><%= speciality_pull.key %></td>
+        <td><%= speciality_pull.name %></td>
+        <td><%= link_to 'Открыть', speciality_pull %></td>
+        <td><%= link_to 'Изменить', edit_speciality_pull_path(speciality_pull) %></td>
+        <td><%= link_to 'Удалить', speciality_pull, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to "Скачать в Excel", speciality_pulls_path(:format => :xlsx), class: "excelbtn" %>
+<br>
+<div style="width: 300px;margin-top: -36px;">
+<%= link_to 'Добавить', new_speciality_pull_path, class: "addbtn" %>
+<br>
+<%= link_to 'Назад', panel_path, class: "backbtn" %>
+</div>

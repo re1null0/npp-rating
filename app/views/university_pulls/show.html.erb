@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Код:</strong>
+  <%= @university_pull.key %>
+</p>
+
+<p>
+  <strong>Наименование:</strong>
+  <%= @university_pull.name %>
+</p>
+
+<div>
+<table align="left">
+  <thead>
+    <tr>
+      <th style="text-align: center;" >Код специальности</th>
+      <th style="text-align: center;" >Специальность</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @uni = University.where(["key = ?", @university_pull.key]) %>
+    <% @uni.each do |speciality| %>
+    	<% @spec = SpecialityPull.where(["key = ?", speciality.speciality]).first %>
+      <tr>
+        <td><%= @spec.key %></td>
+        <td><%= @spec.name %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+<%= link_to 'Изменить', edit_university_pull_path(@university_pull) %> |
+<%= link_to 'Назад', university_pulls_path %>

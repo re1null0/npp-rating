@@ -1,0 +1,88 @@
+<div class="center">
+
+
+
+
+  <h1>Специальности</h1>
+
+  <h2>
+    Здесь вы можете увидеть весь список зарегистрированных специальностей
+  </h2>
+
+<div class="majors">
+<table align="left">
+  <thead>
+    <tr>
+      <th valign="middle">ВУЗ</th>
+      <th>Специальность</th>
+      <th>Создан</th>
+      <th>Согласование</th>
+      <th>ППС</th>
+      <th>Аккредитация</th>
+      <th>Инвестиции</th>
+      <th>Выпускники</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @u = University.all %>
+    <% @u.each do |university| %>
+      <tr>
+        <td><%= university.name %></td>
+        <td><%= university.speciality %></td>
+        <td style="font-size: 9px;"><%= university.created_at %></td>
+
+        <% @sog = Sogla.new()
+        @sog = Sogla.where(["university = ?", university.id]).first%>
+        <% if @sog != nil%>
+         <td style="color: #50af0a;"><%= link_to "посмотреть", soglas_path(:university => university.id)  %></td>
+        <% else%>
+         <td style="color: #c00;"> <%= "не загружено"  %></td>
+        <%end%>
+
+
+        <% @sos = Psostav.new()
+          @sos = Psostav.where(["university = ?", university.id]).first%>
+        <% if @sos != nil%>
+          <td style="color: #50af0a;"><%= link_to "посмотреть", psostavs_path(:university => university.id)  %></td>
+        <% else%>
+          <td style="color: #c00"> <%= "не загружено"  %></td>
+        <%end%>
+
+        <% @cre = Credit.new()
+           @cre = Credit.where(["university = ?", university.id]).first%>
+        <% if @cre != nil%>
+          <td style="color: #50af0a;"><%= link_to "посмотреть", credits_path(:university => university.id)  %></td>
+        <% else%>
+          <td style="color: #c00"> <%= "не загружено"  %></td>
+        <%end%>
+
+
+        <% @inv = Invest.new()
+          @inv = Invest.where(["university = ?", university.id]).first%>
+        <% if @inv != nil%>
+         <td style="color: #50af0a;"> <%= link_to "посмотреть", invests_path(:university => university.id)   %> </td>
+        <% else%>
+          <td style="color: #c00"> <%= "не загружено"  %></td>
+        <%end%>
+
+        <% @gr = Grad.new()
+          @gr = Grad.where(["university = ?", university.id]).first%>
+        <% if @gr != nil%>
+         <td style="color: #50af0a;"> <%= link_to "посмотреть", grads_path(:university => university.id)   %> </td>
+        <% else%>
+          <td style="color: #c00"> <%= "не загружено"  %></td>
+        <%end%>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+<%= link_to "Скачать в Excel", vuz_list_path(:format => :xlsx), class: "excelbtn" %>
+<%= link_to "Назад в панель", panel_path, class: "backbtn" %>
+
+
+</div>

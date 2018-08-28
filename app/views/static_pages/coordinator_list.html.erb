@@ -1,0 +1,44 @@
+<div class="center">
+
+
+  <h1>Координаторы</h1>
+
+  <h2>
+    Здесь вы можете увидеть весь список координаторов
+  </h2>
+
+<div class="majors">
+
+<table align="left">
+  <thead>
+    <tr>
+      <th>Имя координатора</th>
+      <th>код ВУЗа координатора</th>
+      <th>ВУЗ координатора</th>
+      <th>Почта координатора</th>
+      <th>Координатор создан</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @coordinator = User.where(["role = ?", "coordinator"]) %>
+    <% @coordinator = @coordinator.order(:workplace)%>
+    <% @coordinator.each do |coordinator| %>
+     
+      <tr>
+        <% @uni = UniversityPull.where(["key = ?", coordinator.workplace]).first%>
+        <td><%= coordinator.name %></td>
+        <td><%= coordinator.workplace %></td>
+        <td><%= @uni.name %></td>
+        <td><%= coordinator.email %></td>
+        <td><%= coordinator.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<%= link_to "Назад в панель", panel_path, class: "backbtn" %>
+
+<%= link_to "Скачать в Excel", coordinator_list_path(format: "xlsx"), class: "excelbtn" %>
+
+</div>

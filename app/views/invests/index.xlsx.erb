@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+    <Table>
+      <Row>
+         <Cell><Data ss:Type="String"> </Data></Cell>
+      </Row>
+      <Row>
+         <Cell><Data ss:Type="String">Инвестииции в развитие компьютерного парка</Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование</Data></Cell>
+        <Cell><Data ss:Type="String">Сумма</Data></Cell>
+        <Cell><Data ss:Type="String">Год приобретения</Data></Cell>
+        <Cell><Data ss:Type="String">Подтверждающий документ</Data></Cell>
+      </Row>
+
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестииции в развитие компьютерного парка"]) %>
+    <% @invests.each do |invest| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= invest.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.zayav1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.year1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+
+
+     <Table>
+      <Row>
+         <Cell><Data ss:Type="String"> </Data></Cell>
+      </Row>
+      <Row>
+         <Cell><Data ss:Type="String">Инвестииции в ПО</Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование</Data></Cell>
+        <Cell><Data ss:Type="String">Сумма</Data></Cell>
+        <Cell><Data ss:Type="String">Год приобретения</Data></Cell>
+        <Cell><Data ss:Type="String">Подтверждающий документ</Data></Cell>
+      </Row>
+
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестииции в ПО"]) %>
+    <% @invests.each do |invest| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= invest.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.zayav1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.year1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+
+
+
+
+
+
+
+    <Table>
+      <Row>
+         <Cell><Data ss:Type="String"> </Data></Cell>
+      </Row>
+      <Row>
+         <Cell><Data ss:Type="String">Инвестиции на повышение квалификации</Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование</Data></Cell>
+        <Cell><Data ss:Type="String">Сумма</Data></Cell>
+        <Cell><Data ss:Type="String">Год приобретения</Data></Cell>
+        <Cell><Data ss:Type="String">Подтверждающий документ</Data></Cell>
+      </Row>
+
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестиции на повышение квалификации"]) %>
+    <% @invests.each do |invest| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= invest.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.zayav1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.year1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+
+
+
+
+
+
+
+
+
+    <Table>
+      <Row>
+         <Cell><Data ss:Type="String"> </Data></Cell>
+      </Row>
+      <Row>
+         <Cell><Data ss:Type="String">Инвестиции в библиотечный фонд</Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование</Data></Cell>
+        <Cell><Data ss:Type="String">Сумма</Data></Cell>
+        <Cell><Data ss:Type="String">Год приобретения</Data></Cell>
+        <Cell><Data ss:Type="String">Подтверждающий документ</Data></Cell>
+      </Row>
+
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестиции в библиотечный фонд"]) %>
+    <% @invests.each do |invest| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= invest.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.zayav1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.year1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+
+
+
+
+
+
+     <Table>
+      <Row>
+         <Cell><Data ss:Type="String"> </Data></Cell>
+      </Row>
+      <Row>
+         <Cell><Data ss:Type="String">Инвестиции на лаборатории</Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование</Data></Cell>
+        <Cell><Data ss:Type="String">Сумма</Data></Cell>
+        <Cell><Data ss:Type="String">Год приобретения</Data></Cell>
+        <Cell><Data ss:Type="String">Подтверждающий документ</Data></Cell>
+      </Row>
+
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестиции на лаборатории"]) %>
+    <% @invests.each do |invest| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= invest.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.zayav1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invest.year1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+
+
+
+    </Table>
+  </Worksheet>
+</Workbook>

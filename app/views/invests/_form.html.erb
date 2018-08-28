@@ -1,0 +1,62 @@
+<%= form_with(model: invest, local: true) do |form| %>
+  <% if invest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(invest.errors.count, "error") %> prohibited this invest from being saved:</h2>
+
+      <ul>
+      <% invest.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+
+  <div class="field">
+    <%= form.label "ВУЗ" %>
+    <%@uni = University.where(["id = ?", university[0]]).first%>
+    <%= @uni.name %>
+    <%= form.hidden_field :university,  class: 'form-control', value: university[0] %>
+  </div>
+
+
+   <div class="field">
+    <%= form.label "Наименование" %>
+    <%= form.text_field :name %>
+  </div>
+
+  
+
+  <div class="field">
+    <%= form.label "Сумма" %>
+    <%= form.number_field :zayav1 %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Год приобретения" %>
+    <%= form.number_field :year1 %>
+  </div>
+
+  <div class="field">
+  <%= form.label "Тип инвестиций" %>
+  <%= form.select :typec, [["Инвестииции в развитие компьютерного парка", "Инвестииции в развитие компьютерного парка"],["Инвестииции в ПО", "Инвестииции в ПО"], ["Инвестиции на повышение квалификации", "Инвестиции на повышение квалификации"], ["Инвестиции в библиотечный фонд", "Инвестиции в библиотечный фонд"], ["Инвестиции на лаборатории", "Инвестиции на лаборатории"]], {}, {class: "form-control"} %>
+  </div>
+  
+  <div class="field">
+  <%= form.label "Подтверждающий документ" %>
+  <%= form.file_field :doc1,   class: 'form-control' %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<% end %>

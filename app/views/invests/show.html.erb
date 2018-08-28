@@ -1,0 +1,95 @@
+<p id="notice"><%= notice %></p>
+<br />
+<p>
+  <strong>University:</strong>
+  <% @uni = UniversityPull.where(["key = ?", @invest.university]).first%>
+  <%= @uni.name %>
+</p>
+
+<p>
+  <strong>Инвестиции в развитие компьютерного парка:</strong>
+  <%= link_to "ссылка", @invest.doc1.url(:original, false) %>
+</p>
+
+<p>
+  <strong>Заявлено:</strong>
+  <%= @invest.zayav1 %>
+</p>
+<p>
+  <strong>Год:</strong>
+  <%= @invest.year1 %>
+</p>
+<br />
+<p>
+  <strong>Инвестииции в ПО:</strong>
+  <%= link_to "ссылка", @invest.doc2.url(:original, false) %>
+</p>
+
+<p>
+  <strong>Заявлено:</strong>
+  <%= @invest.zayav2 %>
+</p>
+<p>
+  <strong>Год:</strong>
+  <%= @invest.year2 %>
+</p>
+<br />
+<p>
+  <strong>Инвестиции на повышение квалификации</strong>
+  <%= link_to "ссылка", @invest.doc3.url(:original, false) %>
+</p>
+
+<p>
+  <strong>Заявлено:</strong>
+  <%= @invest.zayav3 %>
+</p>
+<p>
+  <strong>Год::</strong>
+  <%= @invest.year3 %>
+</p>
+<br />
+<p>
+  <strong>Инвестиции в библиотечный фонд</strong>
+  <%= link_to "ссылка", @invest.doc4.url(:original, false) %>
+</p>
+
+<p>
+  <strong>Заявлено:</strong>
+  <%= @invest.zayav4 %>
+</p>
+<p>
+  <strong>Год:</strong>
+  <%= @invest.year4 %>
+</p>
+<br />
+<p>
+  <strong>Инвестииции в ПО:</strong>
+  <%= link_to "ссылка", @invest.doc5.url(:original, false) %>
+</p>
+
+
+<p>
+  <strong>Заявлено:</strong>
+  <%= @invest.zayav5 %>
+</p>
+
+
+
+
+
+
+
+<p>
+  <strong>Год:</strong>
+  <%= @invest.year5 %>
+</p>
+
+
+
+<% @uni = University.where(["key = ?", @invest.university]).first %>
+<%= link_to 'Edit', edit_invest_path(@invest) %> |
+<%if current_user && current_user.role != "atameken"%>
+  <%= link_to 'Назад', @uni %>
+<%elsif current_user && current_user.role == "atameken"%>
+  <%= link_to 'Назад', vuz_list_path %>
+<%end%>

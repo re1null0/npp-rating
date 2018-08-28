@@ -1,0 +1,40 @@
+<div class="center">
+
+
+
+  <h1>Эксперты</h1>
+
+  <h2>
+    Здесь вы можете увидеть весь список экспертов
+  </h2>
+
+<div class="majors">
+<table align="left">
+  <thead>
+    <tr>
+      <th>Имя эксперта</th>
+      <th>Место работы эксперта</th>
+      <th>Почта эксперта</th>
+      <th>Эксперт создан</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @expert = User.where(["role = ?", "expert"]) %>
+    <% @expert.each do |expert| %>
+      <tr>
+        <td style="text-align: left;"><%= expert.name %></td>
+        <td><%= expert.workplace %></td>
+        <td><%= expert.email %></td>
+        <td><%= expert.created_at %></td>
+
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<%= link_to "Назад в панель", panel_path, class: "backbtn" %>
+
+<%= link_to "Скачать в Excel", expert_list_path(format: "xlsx"), class: "excelbtn" %>
+</div>

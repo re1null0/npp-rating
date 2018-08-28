@@ -1,0 +1,148 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><br/>Код ВУЗа:</strong>
+  <%= @university.key %>
+</p>
+
+<p>
+  <strong>Наименование:</strong>
+  <%= @university.name %>
+</p>
+
+<p>
+  <strong>Специальность:</strong>
+  <% @spec = SpecialityPull.where(["key = ?", @university.speciality]).first%>
+  <%= @spec.name + " " + @university.speciality %>
+</p>
+
+<p>
+	<strong>МОП:</strong>
+	<% if @university.mop_file_size != nil%>
+    <img width="18" src="https://s8.hostingkartinok.com/uploads/images/2018/08/87da6282a44b104081a74235901989bd.png"><%= link_to "Посмотреть", @university.mop.url(:original, false), target: :_blank  %>
+  <%else%>
+    <%= link_to "Загрузить", edit_university_path(@university)  %>
+  <%end%>	 
+</p>
+
+<p>
+	<strong>КЭД:</strong>
+  <% if @university.ked_file_size != nil%>
+    <img width="18" src="https://s8.hostingkartinok.com/uploads/images/2018/08/87da6282a44b104081a74235901989bd.png"><%= link_to "Посмотреть", @university.ked.url(:original, false), target: :_blank  %>
+  <%else%>
+    <%= link_to "Загрузить", edit_university_path(@university)  %>
+  <%end%>
+</p>
+
+<p>
+  <strong>РУП:</strong>  
+  <% if @university.rup_file_size != nil%>
+    <img width="18" src="https://s8.hostingkartinok.com/uploads/images/2018/08/87da6282a44b104081a74235901989bd.png"><%= link_to "Посмотреть", @university.rup.url(:original, false), target: :_blank  %>
+  <%else%>
+    <%= link_to "Загрузить", edit_university_path(@university)  %>
+  <%end%>
+</p>
+
+<p>
+  <% @sog = Sogla.new()
+    @sog = Sogla.where(["university = ?", @university.id]).first%>
+
+  <strong>Приложение 2 - Согласование:</strong>
+  <% if @sog != nil%>
+    <%= link_to "Посмотреть", soglas_path(:university => @university.id)  %>
+  <% else%>
+    <%= link_to "Загрузить", new_sogla_path(:university => @university.id)  %>
+  <%end%>
+</p>
+
+
+<p>
+  <% @inv = Invest.new()
+    @inv = Invest.where(["university = ?", @university.id]).first%>
+
+  <strong>Приложение 3 - Инвестиции:</strong>
+  <% if @inv != nil%>
+    <%= link_to "Посмотреть", invests_path(:university => @university.id)   %>
+  <% else%>
+    <%= link_to "Загрузить", new_invest_path(:university => @university.id)  %>
+  <%end%>
+</p>
+
+
+<p>
+  <% @sos = Psostav.new()
+    @sos = Psostav.where(["university = ?", @university.id]).first%>
+
+  <strong>Приложение 4 - ППС:</strong>
+  <% if @sos != nil%>
+   <%= link_to "Посмотреть", psostavs_path(:university => @university.id)  %>
+  <% else%>
+    <%= link_to "Загрузить", new_psostav_path(:university => @university.id)  %>
+  <%end%>
+</p>
+
+<p>
+  <% @cre = Credit.new()
+    @cre = Credit.where(["university = ?", @university.id]).first%>
+
+  <strong>Приложение 5 - Аккредитация ППС:</strong>
+  <% if @cre != nil%>
+    <%= link_to "Посмотреть", credits_path(:university => @university.id)  %>
+  <% else%>
+    <%= link_to "Загрузить", new_credit_path(:university => @university.id)  %>
+  <%end%>
+</p>
+
+
+
+<p>
+  <% @gra = Grad.new()
+    @gra = Grad.where(["university = ?", @university.id]).first%>
+
+  <strong>Приложение 6 - Выпускники:</strong>
+  <% if @gra != nil%>
+    <%= link_to "Посмотреть", grads_path(:university => @university.id)  %>
+  <% else%>
+    <%= link_to "Загрузить", new_grad_path(:university => @university.id)  %>
+  <%end%>
+</p>
+
+<%= link_to 'Назад', universities_path, class: "backbtn" %>
+
+<p>
+	<strong>Список зарегистрированных дисциплин</strong>
+</p>
+<% @disciplines = Discipline.where(["university = ?", @university.id]) %>
+<table>
+  <thead>
+    <tr>
+      <th>Название дисциплины</th>
+      <th>Координатор</th>
+      <th>Кредиты</th>
+      <th>Семестр</th>
+      <th>Курс</th>
+      <th>Силлабус</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disciplines.each do |discipline| %>
+      <tr>
+      	<%	@dis = Discipline.new	%>
+      	<%	@dis = discipline	%>
+        <td><%= @dis.name %></td>
+        <td><%= @dis.user %></td>
+        <td><%= @dis.credits %></td>
+        <td><%= @dis.sem %></td>
+        <td><%= @dis.course %></td>
+        <td><%= link_to "Силлабус", discipline.syllabus.url(:original, false), target: :_blank %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Добавить дисциплину', new_discipline_path(:speciality => @university.speciality, :university => @university.id), class: "addbtn"  %>
+
+

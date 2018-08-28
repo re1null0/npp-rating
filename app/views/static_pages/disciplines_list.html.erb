@@ -1,0 +1,102 @@
+<div class="center">
+
+
+  <h1>Дисциплины</h1>
+
+  <h2>
+    Здесь вы можете увидеть список всех дисциплин
+  </h2>
+
+<div style="width: 100%; overflow-x: scroll;">
+<table align="left">
+  <thead>
+    <tr>
+      <th style="text-align: center;" >Дисциплина</th>
+      <th style="text-align: center;" >ВУЗ</th>
+      <th style="text-align: center;" >Код специальности</th>
+      <th style="text-align: center;" >Специальность</th>
+      <th style="text-align: center;" >Координатор (почта)</th>
+      <th style="text-align: center;" >Координатор (имя)</th>
+      <th style="text-align: center;" >МОП</th>
+      <th style="text-align: center;" >МОП(размер)</th>
+      <th style="text-align: center;" >МОП(дата загрузки)</th>
+      <th style="text-align: center;" >КЭД</th>
+      <th style="text-align: center;" >КЭД(размер)</th>
+      <th style="text-align: center;" >КЭД(дата загрузки)</th>
+      <th style="text-align: center;" >Силлабус</th>
+      <th style="text-align: center;" >Силлабус(размер)</th>
+      <th style="text-align: center;" >Силлабус(дата загрузки)</th>
+      <th style="text-align: center;" >РУП</th>
+      <th style="text-align: center;" >РУП(размер)</th>
+      <th style="text-align: center;" >РУП(дата загрузки)</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disciplines = Discipline.all %>
+    <% @disciplines.each do |discipline| %>
+      <tr>
+        <% @uni = University.new()
+          @uni = University.where(["id = ?", discipline.university]).first%>
+
+     <% @spec = SpecialityPull.where(["key = ?", discipline.speciality]).first%>
+
+    <% @coo = User.new()
+    @coo = User.where(["email = ?", discipline.user]).first%>
+        <td><%= discipline.name %></td>
+        <td><%= @uni.name %></td>
+        <td><%= @uni.speciality %></td>
+        <td><%= @spec.name %></td>
+        <td><%= discipline.user %></td>
+        <td><%= @coo.name %></td>
+
+        <%if @uni.mop_file_size != nil%>
+            <td style="color: #50af0a;"><%= link_to "МОП", @uni.mop.url(:original, false), target: :_blank %></td>
+            <td><%= @uni.mop_file_size/1000.0 %> кб</td>
+            <td style="font-size: 9px;" ><%= @uni.mop_updated_at %></td>
+        <%else%>
+            <td style="color: #c00"><%="Не загружено"%></td>
+            <td style="color: #c00"><%="Не загружено"%></td>
+            <td style="color: #c00"><%="Не загружено"%></td>
+        <%end%>
+
+        <%if @uni.ked_file_size != nil%>
+          <td><%= link_to "КЭД", @uni.ked.url(:original, false), target: :_blank %></td>
+          <td><%= @uni.ked_file_size/1000.0 %> кб</td>
+          <td style="font-size: 9px;" ><%= @uni.ked_updated_at %></td>
+        <%else%>
+          <td style="color: #c00"><%="Не загружено"%></td>
+          <td style="color: #c00"><%="Не загружено"%></td>
+          <td style="color: #c00"><%="Не загружено"%></td>
+        <%end%>
+
+
+        <%if discipline.syllabus_file_size != nil%>
+          <td><%= link_to "Силлабус", discipline.syllabus.url(:original, false), target: :_blank %></td>
+          <td><%= discipline.syllabus_file_size/1000.0 %> кб</td>
+          <td style="font-size: 9px;" ><%= discipline.syllabus_updated_at %></td>
+        <%else%>
+          <td style="color: #c00"><%="Не загружено"%></td>
+          <td style="color: #c00"><%="Не загружено"%></td>
+          <td style="color: #c00"><%="Не загружено"%></td>
+        <%end%>
+
+        <%if @uni.rup_file_size != nil%>
+          <td><%= link_to "РУП", @uni.rup.url(:original, false), target: :_blank %></td>
+          <td><%= @uni.rup_file_size/1000.0 %> кб</td>
+          <td style="font-size: 9px;" ><%= @uni.rup_updated_at %></td>
+        <%else%>
+          <td style="color: #c00"><%="Не загружено"%></td>
+          <td style="color: #c00"><%="Не загружено"%></td>
+          <td style="color: #c00"><%="Не загружено"%></td>
+        <%end%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<%= link_to "Скачать в Excel", disciplines_list_path(:format => :xlsx), class: "excelbtn" %>
+<%= link_to "Назад в панель", panel_path, class: "backbtn" %>
+
+
+</div>

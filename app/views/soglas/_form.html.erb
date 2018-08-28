@@ -1,0 +1,59 @@
+<%= form_with(model: sogla, local: true) do |form| %>
+  <% if sogla.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sogla.errors.count, "error") %> prohibited this sogla from being saved:</h2>
+
+      <ul>
+      <% sogla.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+
+  <div class="field">
+    <%= form.label "ВУЗ" %>
+    <%@uni = University.where(["id = ?", university[0]]).first%>
+    <%= @uni.name %>
+    <%= form.hidden_field :university,  class: 'form-control', value: university[0] %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Наименование ассоциации или работодателя, с которым было согласовано" %>
+    <%= form.text_field :name,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Наименование согласованного документа" %>
+    <%= form.text_field :doc,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Дата согласования" %>
+    <%= form.date_field :date,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Вид подтверждающего документа" %>
+    <%= form.text_field :vid,  class: 'form-control'%>
+  </div>
+
+  <%= form.label "Доукмент" %>
+  <%= form.file_field :soglas,   class: 'form-control' %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+
+<%= link_to 'Назад', @uni, class: "backbtn" %>
+<% end %>
+

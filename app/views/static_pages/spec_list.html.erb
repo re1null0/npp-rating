@@ -1,0 +1,73 @@
+<div class="center">
+
+
+
+  <h1>Специальности</h1>
+
+  <h2>
+    Здесь вы можете увидеть весь список специальностей
+  </h2>
+<div class="majors">
+<table >
+  <thead>
+    <tr>
+      <th>ВУЗ</th>
+      <th>Специальность</th>
+      <th>Просмотр дисциплин</th>
+      <th>Оценен</th>
+      <th>Эксперт</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @spec = Discipline.group(:university, :speciality) %>
+    <% @spec.each do |speciality| %>
+      <tr>
+        <% @uni = University.new()
+    @uni = University.where(["id = ?", speciality.university]).first%>
+
+    <% @spec = SpecialityPull.new()
+    @spec = SpecialityPull.where(["key = ?", speciality.speciality]).first%>
+
+    <% @coo = User.new()
+    @coo = User.where(["email = ?", speciality.user]).first%>
+
+    <% @Speci = Speciality.new()
+    @Speci = Speciality.where(["name = ?", speciality.speciality])
+    if @Speci != nil
+      @Speciality = @Speci.where(["university = ?", @uni.key]).first
+    else
+      @Speciality = @Speci
+    end %>
+
+
+        <td style="text-slign: left;"><%= @uni.name %></td>
+        <td><%= @spec.name %></td>
+
+        <td><%= link_to "Дисциплины", dis_of_uni_path(:university => speciality.university , :name => @spec.key) %></td>
+
+        <% if @Speciality == nil %>
+
+        <td><%= link_to "Дать доступ эксперту", new_speciality_path(:university => @uni.key , :name => @spec.key) %></td>
+        <td><%= "нет эксперта" %></td>
+
+        <% else %>
+          <% if @Speciality.mark.size == 0 %>
+            <td style="color: #c00;"> <%= "не оценен"  %></td>
+          <%else%>
+            <td><%= link_to "Оценка", speciality_path(@Speciality) %></td>
+          <%end%>
+        <td><%= @Speciality.email  %></td>
+
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<%= link_to "Скачать в Excel", spec_list_path(:format => :xlsx), class: "excelbtn" %>
+<%= link_to "Назад в панель", panel_path, class: "backbtn" %>
+
+
+</div>

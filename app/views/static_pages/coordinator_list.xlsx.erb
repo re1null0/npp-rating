@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Имя Координатор</Data></Cell>
+        <Cell><Data ss:Type="String">Код ВУЗа координатора</Data></Cell>
+        <Cell><Data ss:Type="String">Наименование ВУЗа координатора</Data></Cell>
+        <Cell><Data ss:Type="String">Почта координатора</Data></Cell>
+        <Cell><Data ss:Type="String">Координатор создан</Data></Cell>
+      </Row>
+
+    <% @coordinator = User.where(["role = ?", "coordinator"]) %>
+    <% @coordinator = @coordinator.order(:workplace)%>
+    <% @coordinator.each do |coordinator| %>
+      <% @uni = UniversityPull.where(["key = ?", coordinator.workplace]).first%>
+      <Row>
+        <Cell><Data ss:Type="String"><%= coordinator.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= coordinator.workplace %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @uni.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= coordinator.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= coordinator.created_at %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+

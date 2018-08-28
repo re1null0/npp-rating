@@ -1,0 +1,177 @@
+<% provide(:title, "About") %>
+
+    <h1>Графики</h1>
+    <p>
+      Здесь представлены данные по заработной плате в разрезе ВУЗов Казахстана.
+      <br>Средняя заработная плата: 150647 тенге.
+      <br>Медиана: 111606 тенге.
+      <br>Макс: 415977 тенге.
+      <br>Мин: 55754 тенге.
+    </p>
+
+        
+        <!-- amCharts javascript sources -->
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+    
+
+    <!-- amCharts javascript code -->
+    <script type="text/javascript">
+      AmCharts.makeChart("chartdiv",
+        {
+          "type": "serial",
+          "categoryField": "category",
+          "startDuration": 1,
+          "fontFamily": "Arial",
+          "theme": "light",
+          "categoryAxis": {
+            "autoRotateAngle": 39.6,
+            "autoRotateCount": 1,
+            "gridPosition": "start",
+            "titleBold": false,
+            "titleFontSize": 0,
+            "titleRotation": 5
+          },
+          "chartCursor": {
+            "enabled": true
+          },
+          "chartScrollbar": {
+            "enabled": true
+          },
+          "trendLines": [],
+          "graphs": [
+            {
+              "fillAlphas": 1,
+              "id": "AmGraph-1",
+              "title": "graph 1",
+              "type": "column",
+              "valueField": "column-1"
+            }
+          ],
+          "guides": [],
+          "valueAxes": [
+            {
+              "id": "ValueAxis-1",
+              "title": "Заработная плата в (тенге)"
+            },
+            {
+              "id": "Заработная плата в KZT",
+              "autoRotateAngle": -63,
+              "axisAlpha": 0,
+              "axisThickness": 0,
+              "boldPeriodBeginning": false,
+              "centerLabelOnFullPeriod": false,
+              "gridCount": 4,
+              "minHorizontalGap": 71,
+              "minVerticalGap": 33,
+              "tickLength": 1
+            }
+          ],
+          "allLabels": [],
+          "balloon": {},
+          "titles": [
+            {
+              "id": "Title-1",
+              "size": 15,
+              "text": "Средняя заработная плата по специальности: Автоматизация (2017)"
+            }
+          ],
+          "dataProvider": [
+            {
+              "category": "Атырауский институт нефти и газа",
+              "column-1": "207549"
+            },
+            {
+              "category": "Восточно-Казахстанский государственный технический университет им. Д.Серикбаева",
+              "column-1": "234375"
+            },
+            {
+              "category": "Евразийский национальный университет им. Л.Н.Гумилева",
+              "column-1": "105804"
+            },
+            {
+              "category": "Жезказганский университет им. О.А.Байконурова",
+              "column-1": "185864"
+            },
+            {
+              "category": "Казахская академия транспорта и коммуникаций им.М.Тынышпаева",
+              "column-1": "105807"
+            },
+            {
+              "category": "Казахский национальный технический университет им. К.И.Сатпаева",
+              "column-1": "111133"
+            },
+            {
+              "category": "Карагандинский государственный индустриальный университет",
+              "column-1": "95898"
+            },
+            {
+              "category": "Международный казахско-турецкий университет им.Х.А.Ясави",
+              "column-1": "55754"
+            },
+            {
+              "category": "Павлодарский государственный университет им.С.Торайгырова",
+              "column-1": "75039"
+            },
+            {
+              "category": "РГП на ПХВ \"Рудненский индустриальный институт\"",
+              "column-1": "77669"
+            },
+            {
+              "category": "Государственный университет имени Шакарима города Семей",
+              "column-1": "80025"
+            },
+            {
+              "category": "Таразский государственный университет им. М.Х.Дулати",
+              "column-1": "57523"
+            },
+            {
+              "category": "Южно-Казахстанский государственный университет им. М.Ауэзова",
+              "column-1": "99959"
+            },
+            {
+              "category": "Казахстанский инженерно-технологический университет",
+              "column-1": "129262"
+            },
+            {
+              "category": "Казахстанский инженерно-технологический университет",
+              "column-1": "129262"
+            },
+            {
+              "category": "Алматинский технологический университет",
+              "column-1": "113069"
+            },
+            {
+              "category": "Алматинский университет энергетики и связи",
+              "column-1": "123733"
+            },
+            {
+              "category": "Казахско-Русский международный университет",
+              "column-1": "108142"
+            },
+            {
+              "category": "Экибастузский инженерно-технический институт им.академика К.Сатпаева",
+              "column-1": "112078"
+            },
+            {
+              "category": "Центрально-Казахстанская академия",
+              "column-1": "76654"
+            },
+            {
+              "category": "Атырауский инженерно-гуманитарный институт",
+              "column-1": "119827"
+            },
+            {
+              "category": "Актюбинский университет им. С.Баишева",
+              "column-1": "123089"
+            },
+            {
+              "category": "Казахстанско-Британский технический университет",
+              "column-1": "415977"
+            },
+          ]
+        }
+      );
+    </script>
+   <div id="chartdiv" style="width: 100%; height: 600px; background-color: #FFFFFF;" ></div>

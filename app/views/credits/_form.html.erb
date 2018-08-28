@@ -1,0 +1,65 @@
+<%= form_with(model: credit, local: true) do |form| %>
+  <% if credit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(credit.errors.count, "error") %> prohibited this credit from being saved:</h2>
+
+      <ul>
+      <% credit.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+
+  <div class="field">
+    <%= form.label "ВУЗ" %>
+    <%@uni = University.where(["id = ?", university[0]]).first%>
+    <%= @uni.name %>
+    <%= form.hidden_field :university,  class: 'form-control', value: university[0] %>
+  </div>
+
+  
+  <div class="field">
+    <%= form.label "Наименование аккредитационного органа" %>
+    <%= form.text_field :name,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Местонахождение аккредитационного органа" %>
+    <%= form.text_field :mesto,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Начало действия аккредитации" %>
+    <%= form.date_field :date1,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Конец действия аккредитации" %>
+    <%= form.date_field :date2,  class: 'form-control'%>
+  </div>
+
+
+  <div class="field">
+    <%= form.label "Ссылка на сайт аккредитационного органа, где указаны сведения об аккредитации ВУЗа" %>
+    <%= form.text_field :link,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+  <%= form.label "Подтверждающий документ аккредитации" %>
+  <%= form.file_field :credit,   class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<% end %>

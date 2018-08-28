@@ -1,0 +1,45 @@
+<%= form_with(model: speciality, local: true) do |form| %>
+  <% if speciality.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(speciality.errors.count, "error") %> prohibited this speciality from being saved:</h2>
+
+      <ul>
+      <% speciality.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <% 
+     url = request.original_url
+     uri = URI::parse(url)
+     params = CGI::parse(uri.query)
+     name = params['name']
+    
+
+     university = params['university']
+   %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= name[0]%>
+    <%= form.hidden_field :name, value: name[0]  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :university %>
+    <%= university[0]%>
+    <%= form.hidden_field :university, value: university[0] %> 
+  </div>
+
+  <div class="field">
+    <%= form.label "Эксперт" %>
+    <% @expert = User.where(["role = ?", "expert"]) %>
+    <%= form.select :email, options_for_select(@expert.map { |expert| [expert.email] }) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

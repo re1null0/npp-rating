@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование аккредитационного органа</Data></Cell>
+        <Cell><Data ss:Type="String">Местонахождение аккредитационного органа</Data></Cell>
+        <Cell><Data ss:Type="String">Период действия аккредитации</Data></Cell>
+        <Cell><Data ss:Type="String">Ссылка на сайт аккредитационного органа, где указаны сведения об аккредитации ВУЗа</Data></Cell>
+        <Cell><Data ss:Type="String">Документ</Data></Cell>
+      </Row>
+
+    <% @credits = @credits.where(["university = ?", university[0]]) %>
+    <% @credits.each do |credit| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= credit.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= credit.mesto %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= credit.date1.strftime('%d/%m/%Y') + " - " + credit.date2.strftime('%d/%m/%Y') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to credit.link, credit.link, target: :_blank %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Открыть", credit.credit.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+

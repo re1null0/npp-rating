@@ -1,0 +1,75 @@
+<%= form_with(model: psostav, local: true) do |form| %>
+  <% if psostav.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(psostav.errors.count, "error") %> prohibited this psostav from being saved:</h2>
+
+      <ul>
+      <% psostav.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+
+  <div class="field">
+    <%= form.label "ВУЗ" %>
+    <%@uni = University.where(["id = ?", university[0]]).first%>
+    <%= @uni.name %>
+    <%= form.hidden_field :university,  class: 'form-control', value: university[0] %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label "ФИО" %>
+    <%= form.text_field :fio,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Наименование преподаваемых дисциплин" %>
+    <%= form.text_field :dis,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Вид работы" %>
+    <%= form.text_field :vid,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Наличие практического опыта (вне структуры ВУЗов по специальности) работы (да/нет)" %>
+    <%= form.select :opit, [["Да", "Да"], ["Нет", "Нет"]], {}, {class: "form-control"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Общее количество практического опыта вне структуры ВУЗов по специальности, месяцев" %>
+    <%= form.text_field :kolvo,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Место работы вне структуры ВУЗов по специальности" %>
+    <%= form.text_field :mesto,  class: 'form-control'%>
+  </div>
+
+  <div class="field">
+    <%= form.label "В штате или нет?" %>
+    <%= form.select :shtat, [["В штате", "В штате"], ["Нет", "Нет"]], {}, {class: "form-control"} %>
+  </div>
+
+  <div class="field">
+  <%= form.label "Резюме" %>
+  <%= form.file_field :sostav,   class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+  <%= link_to 'Назад', @uni %>
+<% end %>

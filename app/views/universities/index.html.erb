@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+        <% @uni = UniversityPull.new()
+           @uni = UniversityPull.where(["key = ?", current_user.workplace]).first%>
+        
+        
+<h1><%= @uni.name %></h1>
+<table>
+  <thead>
+    <tr>
+      <th>Код специальности</th>
+      <th>Специальность</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @universities.each do |university| %>
+      <tr>
+        <% @spec = SpecialityPull.new()
+           @spec = SpecialityPull.where(["key = ?", university.speciality]).first%>
+        <td><%= @spec.key %></td>
+        <td><%= @spec.name %></td>
+        <td><%= link_to 'Подробнее', university %></td>
+        <td><%= link_to 'Редактировать', edit_university_path(university) %></td>
+        <td><%= link_to 'Удалить', university, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Добавить', new_university_path, class: "addbtn" %>

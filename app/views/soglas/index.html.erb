@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+<h1><%= @uni.name + ", кафедра " + @spec.name %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Наименование ассоциации или работодателя, с которым было согласовано</th>
+      <th>Наименование согласованного документа</th>
+      <th>Дата согласования</th>
+      <th>Вид подтверждающего документа</th>
+      <th>Документ</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @soglas = @soglas.where(["university = ?", university[0]]) %>
+    <% @soglas.each do |sogla| %>
+      <tr>
+        <td><%= sogla.name %></td>
+        <td><%= sogla.doc %></td>
+        <td><%= sogla.date.strftime('%d - %m - %Y') %></td>
+        <td><%= sogla.vid %></td>
+        <td><%= link_to "Открыть", sogla.soglas.url(:original, false), target: :_blank  %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if current_user.role == 'coordinator' %>
+  <%= link_to 'Добавить', new_sogla_path(:university => @uni.id), class: "addbtn" %>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<%else%>
+  <%= link_to 'Назад', vuz_list_path, class: "backbtn" %>
+<%end%>
+
+<%= link_to "Скачать в Excel", soglas_path(:university => @uni.id , :format => :xlsx), class: "excelbtn" %>

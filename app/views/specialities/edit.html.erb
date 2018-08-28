@@ -1,0 +1,80 @@
+<h1>Заполнение оценочного листа</h1>
+
+<%= form_with(model: @speciality, local: true) do |form| %>
+  <% if @speciality.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@speciality.errors.count, "error") %> prohibited this speciality from being saved:</h2>
+
+      <ul>
+      <% @speciality.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+   <% @uni = University.new()
+    @uni = University.where(["key = ?", @speciality.university])%>
+
+    <% @uni = @uni.where(["speciality = ?", @speciality.name]).first%>
+
+    <% @spec = SpecialityPull.new()
+    @spec = SpecialityPull.where(["key = ?", @speciality.name]).first%>
+
+   <p>
+  <strong><br/><br/><%= @uni.name + ", специальность " +  @spec.name %></strong>
+</p>
+<% @disciplines = Discipline.where(["university = ?", @uni.id]) %>
+<% @disciplines = @disciplines.where(["speciality = ?", @speciality.name]) %>
+<table align="left">
+  <thead>
+    <tr>
+      <th>Дисцпилины</th>
+      <th>Цикл</th>
+      <th>Кредиты</th>
+      <th>Курс</th>
+      <th>1. Цели изучения дисциплины/модуля</th>
+      <th>2. Достаточность времени (часов) отводимого на изучение дисциплины/модуля</th>
+      <th>3. Актуальность, новизна тем, конкурентное преимущество содержания дисциплин/модуля</th>
+      <th>4. Актуальность знаний, умений, и навыков компетенций для рынка и работадателей</th>
+      <th>5. Актуальность (новизна) рекомендуемой литературы(источников) для изучения</th>
+      <th>Комментарий</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disciplines.each do |discipline| %>
+      <tr>
+        <%  @dis = Discipline.new %>
+        <%  @dis = discipline %>
+        <td><%= link_to @dis.name, discipline.syllabus.url(:original, false), target: '_blank' %></td>
+        <td><%= @dis.cycle %></td>
+        <td><%= @dis.credits %></td>
+        <td><%= @dis.course%></td>
+        <td style="text-align: center;"><%= form.number_field :mark, in: 1..5, multiple: true%></td>
+        <td style="text-align: center;"><%= form.number_field :mark, in: 1..5, multiple: true%></td>
+        <td style="text-align: center;"><%= form.number_field :mark, in: 1..5, multiple: true%></td>
+        <td style="text-align: center;"><%= form.number_field :mark, in: 1..5, multiple: true%></td>
+        <td style="text-align: center;"><%= form.number_field :mark, in: 1..5, multiple: true %></td>
+        <td style="text-align: center;"><%= form.text_field :mark, multiple: true%></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+  <br />
+
+
+  <div class="actions">
+  
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Показать', @speciality, class: "showbtn" %> 
+<%= link_to 'Назад', specialities_path, class: "backbtn" %>

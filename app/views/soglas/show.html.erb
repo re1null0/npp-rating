@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>ВУЗ:</strong>
+  <%= @sogla.university %>
+</p>
+
+<p>
+  <strong>Согласование:</strong>
+  <%= link_to "Ссылка", @sogla.soglas.url(:original, false) %>
+</p>
+
+<%= link_to 'Edit', edit_sogla_path(@sogla) %> |
+<%= link_to 'Back', soglas_path %>

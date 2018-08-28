@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+<% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+<h1><%= @uni.name + ", кафедра " + "'" + @spec.name + "'"%> </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Наименование аккредитационного органа</th>
+      <th>Местонахождение аккредитационного органа</th>
+      <th>Период действия аккредитации</th>
+      <th>Ссылка на сайт аккредитационного органа, где указаны сведения об аккредитации ВУЗа</th>
+      <th>Документ</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @credits = @credits.where(["university = ?", university[0]]) %>
+    <% @credits.each do |credit| %>
+      <tr>
+        <td><%= credit.name %></td>
+        <td><%= credit.mesto %></td>
+        <td><%= credit.date1.strftime('%d/%m/%Y') + " - " + credit.date2.strftime('%d/%m/%Y') %></td>
+        <td><%= link_to credit.link, credit.link, target: :_blank %></td>
+        <td><%= link_to "Открыть", credit.credit.url(:original, false), target: :_blank %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if current_user.role == 'coordinator' %>
+  <%= link_to 'Добавить', new_credit_path(:university => @uni.id), class: "addbtn" %>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<%else%>
+  <%= link_to 'Назад', vuz_list_path, class: "backbtn" %>
+<%end%>
+<%= link_to "Скачать в Excel", credits_path(:university => @uni.id , :format => :xlsx), class: "excelbtn" %>

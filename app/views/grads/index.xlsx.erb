@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ФИО</Data></Cell>
+        <Cell><Data ss:Type="String">ИИН</Data></Cell>
+        <Cell><Data ss:Type="String">Дата рождения</Data></Cell>
+        <Cell><Data ss:Type="String">Отделение</Data></Cell>
+        <Cell><Data ss:Type="String">Форма оплаты</Data></Cell>
+        <Cell><Data ss:Type="String">Пол</Data></Cell>
+        <Cell><Data ss:Type="String">Мобильный телефон</Data></Cell>
+      </Row>
+
+    <% @grads = @grads.where(["university = ?", university[0]]) %>
+    <% @grads.each do |grad| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= grad.fio %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= grad.iin %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= grad.dob.strftime('%d/%m/%Y') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= grad.otd %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= grad.forma %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= grad.gender %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= grad.mob %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+
+      <% @uni = University.new()
+    @uni = University.where(["key = ?", @speciality.university])%>
+
+    <% @uni = @uni.where(["speciality = ?", @speciality.name]).first%>
+
+    <% @spec = SpecialityPull.new()
+    @spec = SpecialityPull.where(["key = ?", @speciality.name]).first%> 
+
+<% i = 0%>
+
+<% @disciplines = Discipline.where(["university = ?", @uni.id]) %>
+<% @disciplines = @disciplines.where(["speciality = ?", @speciality.name]) %>
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Дисциплины</Data></Cell>
+        <Cell><Data ss:Type="String">Цикл</Data></Cell>
+        <Cell><Data ss:Type="String">Кредиты</Data></Cell>
+        <Cell><Data ss:Type="String">Курс</Data></Cell>
+        <Cell><Data ss:Type="String">1. Цели изучения дисциплины/модуля</Data></Cell>
+        <Cell><Data ss:Type="String">2. Достаточность времени (часов) отводимого на изучение дисциплины/модуля</Data></Cell>
+        <Cell><Data ss:Type="String">3. Актуальность, новизна тем, конкурентное преимущество содержания дисциплин/модуля</Data></Cell>
+        <Cell><Data ss:Type="String">4. Актуальность знаний, умений, и навыков компетенций для рынка и работадателей</Data></Cell>
+        <Cell><Data ss:Type="String">5. Актуальность (новизна) рекомендуемой литературы(источников) для изучения</Data></Cell>
+        <Cell><Data ss:Type="String">Комментарий</Data></Cell>
+      </Row>
+
+     <% @disciplines.each do |discipline| %>
+      <Row>
+        <%  @dis = Discipline.new %>
+        <%  @dis = discipline %>
+        <Cell><Data ss:Type="String"><%= @dis.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @dis.cycle %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @dis.credits %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @dis.course %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @speciality.mark[i] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @speciality.mark[i+1] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @speciality.mark[i+2] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @speciality.mark[i+3] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @speciality.mark[i+4] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @speciality.mark[i+5] %></Data></Cell>
+      </Row>
+      <%i= i+6%>
+    <% end %>
+
+      <Row>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <%
+          array = @speciality.mark
+          sum = 0
+          num = 0
+          index = 0
+          i = 0
+          a = 0
+          for i in array
+
+            if index + 1 % 6 != 0
+              if (index - 0) % 6 == 0
+                sum += i.to_i
+                num += 1
+                
+              end
+            end
+            index += 1
+          end
+          average = sum/num.to_f
+          %>
+        <Cell><Data ss:Type="String"><%= average.round(2) %></Data></Cell>
+        <%
+          array = @speciality.mark
+          sum = 0
+          num = 0
+          index = 0
+          i = 0
+          a = 0
+          for i in array
+
+            if index + 1 % 6 != 0
+              if (index - 1) % 6 == 0
+                sum += i.to_i
+                num += 1
+                
+              end
+            end
+            index += 1
+          end
+          average = sum/num.to_f
+          %>
+        <Cell><Data ss:Type="String"><%= average.round(2) %></Data></Cell>
+        <%
+          array = @speciality.mark
+          sum = 0
+          num = 0
+          index = 0
+          i = 0
+          a = 0
+          for i in array
+
+            if index + 1 % 6 != 0
+              if (index - 2) % 6 == 0
+                sum += i.to_i
+                num += 1
+                
+              end
+            end
+            index += 1
+          end
+          average = sum/num.to_f
+          %>
+        <Cell><Data ss:Type="String"><%= average.round(2) %></Data></Cell>
+        <%
+          array = @speciality.mark
+          sum = 0
+          num = 0
+          index = 0
+          i = 0
+          a = 0
+          for i in array
+
+            if index + 1 % 6 != 0
+              if (index - 3) % 6 == 0
+                sum += i.to_i
+                num += 1
+                
+              end
+            end
+            index += 1
+          end
+          average = sum/num.to_f
+          %>
+        <Cell><Data ss:Type="String"><%= average.round(2) %></Data></Cell>
+        <%
+          array = @speciality.mark
+          sum = 0
+          num = 0
+          index = 0
+          i = 0
+          a = 0
+          for i in array
+
+            if index + 1 % 6 != 0
+              if (index - 4) % 6 == 0
+                sum += i.to_i
+                num += 1
+                
+              end
+            end
+            index += 1
+          end
+          average = sum/num.to_f
+          %>
+        <Cell><Data ss:Type="String"><%= average.round(2) %></Data></Cell>
+      </Row>
+    </Table>
+  </Worksheet>
+</Workbook>

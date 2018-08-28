@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+  <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+<h1><%= @uni.name + ", специальность " + "'" + @spec.name + "'"%> </h1>
+<h1>Список выпускников</h1>
+<table>
+  <thead>
+    <tr>
+      <th>ФИО</th>
+      <th>ИИН</th>
+      <th>Дата рождения</th>
+      <th>Отделение</th>
+      <th>Форма оплаты</th>
+      <th>Пол</th>
+      <th>Мобильный телефон</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @grads = @grads.where(["university = ?", university[0]]) %>
+    <% @grads.each do |grad| %>
+      <tr>
+        <td><%= grad.fio %></td>
+        <td><%= grad.iin %></td>
+        <td><%= grad.dob.strftime('%d/%m/%Y') %></td>
+        <td><%= grad.otd %></td>
+        <td><%= grad.forma %></td>
+        <td><%= grad.gender %></td>
+        <td><%= grad.mob %></td>
+        <td><%= link_to 'Удалить', grad, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_user.role == 'coordinator' %>
+<%= link_to 'Добавить', new_grad_path(:university => @uni.id), class: "addbtn" %>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<%else%>
+  <%= link_to 'Назад', vuz_list_path, class: "backbtn" %>
+<%end%>
+<%= link_to "Скачать в Excel", grads_path(:university => @uni.id , :format => :xlsx), class: "excelbtn" %>

@@ -1,0 +1,161 @@
+<p id="notice"><%= notice %></p>
+<% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+<h1><%= @uni.name + ", кафедра " + "'" + @spec.name + "'"%> </h1>
+
+<h1>Инвестииции в развитие компьютерного парка</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Наименование</th>
+      <th>Сумма</th>
+      <th>Год приобретения</th>
+      <th>Подтверждающий документ</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестииции в развитие компьютерного парка"]) %>
+    <% @invests.each do |invest| %>
+      <tr>
+        <td><%= invest.name %></td>
+        <td><%= invest.zayav1 %></td>
+        <td><%= invest.year1 %></td>
+        <td><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank  %></td>
+        <td><%= link_to 'Удалить', invest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<h1>Инвестииции в ПО</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Наименование</th>
+      <th>Сумма</th>
+      <th>Год приобретения</th>
+      <th>Подтверждающий документ</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестииции в ПО"]) %>
+    <% @invests.each do |invest| %>
+      <tr>
+        <td><%= invest.name %></td>
+        <td><%= invest.zayav1 %></td>
+        <td><%= invest.year1 %></td>
+        <td><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank  %></td>
+        <td><%= link_to 'Удалить', invest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<h1>Инвестиции на повышение квалификации</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Наименование</th>
+      <th>Сумма</th>
+      <th>Год приобретения</th>
+      <th>Подтверждающий документ</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестиции на повышение квалификации"]) %>
+    <% @invests.each do |invest| %>
+      <tr>
+        <td><%= invest.name %></td>
+        <td><%= invest.zayav1 %></td>
+        <td><%= invest.year1 %></td>
+        <td><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank  %></td>
+        <td><%= link_to 'Удалить', invest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<h1>Инвестиции в библиотечный фонд</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Наименование</th>
+      <th>Сумма</th>
+      <th>Год приобретения</th>
+      <th>Подтверждающий документ</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестиции в библиотечный фонд"]) %>
+    <% @invests.each do |invest| %>
+      <tr>
+        <td><%= invest.name %></td>
+        <td><%= invest.zayav1 %></td>
+        <td><%= invest.year1 %></td>
+        <td><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank  %></td>
+        <td><%= link_to 'Удалить', invest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+
+<h1>Инвестиции на лаборатории</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Наименование</th>
+      <th>Сумма</th>
+      <th>Год приобретения</th>
+      <th>Подтверждающий документ</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invests = Invest.all%>
+    <% @invests = @invests.where(["university = ?", university[0]]) %>
+    <% @invests = @invests.where(["typec = ?", "Инвестиции на лаборатории"]) %>
+    <% @invests.each do |invest| %>
+      <tr>
+        <td><%= invest.name %></td>
+        <td><%= invest.zayav1 %></td>
+        <td><%= invest.year1 %></td>
+        <td><%= link_to "Посмотреть", invest.doc1.url(:original, false), target: :_blank  %></td>
+        <td><%= link_to 'Удалить', invest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<% if current_user.role == 'coordinator' %>
+  <%= link_to 'Добавить', new_invest_path(:university => @uni.id), class: "addbtn" %>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<%else%>
+  <%= link_to 'Назад', vuz_list_path, class: "backbtn" %>
+<%end%>
+
+<%= link_to "Скачать в Excel", invests_path(:university => @uni.id , :format => :xlsx), class: "excelbtn" %>

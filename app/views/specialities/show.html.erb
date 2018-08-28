@@ -1,0 +1,210 @@
+<p id="notice"><%= notice %></p>
+
+
+
+
+
+       <% @uni = University.new()
+    @uni = University.where(["key = ?", @speciality.university])%>
+
+    <% @uni = @uni.where(["speciality = ?", @speciality.name]).first%>
+
+    <% @spec = SpecialityPull.new()
+    @spec = SpecialityPull.where(["key = ?", @speciality.name]).first%> 
+
+<% i = 0%>
+   
+ <p>
+  <strong><br/><br/><%= @uni.name + ", специальность " +  @spec.name %></strong>
+</p>
+<% @disciplines = Discipline.where(["university = ?", @uni.id]) %>
+<% @disciplines = @disciplines.where(["speciality = ?", @speciality.name]) %>
+
+<div style="width: 100%; overflow-x: scroll;">
+<table align="left">
+  <thead>
+    <tr>
+      <th>Дисцпилины</th>
+      <th>Цикл</th>
+      <th>Кредиты</th>
+      <th>Курс</th>
+      <th>1. Цели изучения дисциплины/модуля</th>
+      <th>2. Достаточность времени (часов) отводимого на изучение дисциплины/модуля</th>
+      <th>3. Актуальность, новизна тем, конкурентное преимущество содержания дисциплин/модуля</th>
+      <th>4. Актуальность знаний, умений, и навыков компетенций для рынка и работадателей</th>
+      <th>5. Актуальность (новизна) рекомендуемой литературы(источников) для изучения</th>
+      <th>Комментарий</th>
+    
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disciplines.each do |discipline| %>
+      <tr>
+        <%  @dis = Discipline.new %>
+        <%  @dis = discipline %>
+        <td><%= link_to @dis.name, discipline.syllabus.url(:original, false), target: '_blank' %></td>
+        <td><%= @dis.cycle %></td>
+        <td style="text-align: center;"><%= @dis.credits %></td>
+        <td style="text-align: center;"><%= @dis.course%></td>
+        <td style="text-align: center;"><%= @speciality.mark[i]%></td>
+        <td style="text-align: center;"><%= @speciality.mark[i+1]%></td>
+        <td style="text-align: center;"><%= @speciality.mark[i+2]%></td>
+        <td style="text-align: center;"><%= @speciality.mark[i+3]%></td>
+        <td style="text-align: center;"><%=  @speciality.mark[i+4]%></td>
+        <td><%= @speciality.mark[i+5]%></td>
+
+
+      </tr>
+      <%i= i+6%>
+    <% end %>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%
+      array = @speciality.mark
+      sum = 0
+      num = 0
+      index = 0
+      i = 0
+      a = 0
+      for i in array
+
+        if index +1 % 6 != 0 
+          if (index - 0) % 6 == 0
+            sum += i.to_i
+            num += 1
+          end
+        end
+        index += 1
+      end
+      average = sum/num.to_f
+      %>
+
+      <td style="text-align: center;"><%= average.round(2)%></td>
+
+
+
+
+      <%
+      array = @speciality.mark
+      sum = 0
+      num = 0
+      index = 0
+      i = 0
+      a = 0
+      for i in array
+
+        if index + 1 % 6 != 0
+          if (index - 1) % 6 == 0
+            sum += i.to_i
+            num += 1
+            
+          end
+        end
+        index += 1
+      end
+      average = sum/num.to_f
+      %>
+
+      <td style="text-align: center;"><%= average.round(2)%></td>
+
+
+
+
+      <%
+      array = @speciality.mark
+      sum = 0
+      num = 0
+      index = 0
+      i = 0
+      a = 0
+      for i in array
+
+        if index +1% 6 != 0
+          if (index - 2) % 6 == 0
+            sum += i.to_i
+            num += 1
+            
+          end
+        end
+        index += 1
+      end
+      average = sum/num.to_f
+      %>
+
+      <td style="text-align: center;"><%= average.round(2)%></td>
+
+
+
+
+
+
+      <%
+      array = @speciality.mark
+      sum = 0
+      num = 0
+      index = 0
+      i = 0
+      a = 0
+      for i in array
+
+        if index +1% 6 != 0
+          if (index - 3) % 6 == 0
+            sum += i.to_i
+            num += 1
+            
+          end
+        end
+        index += 1
+      end
+      average = sum/num.to_f
+      %>
+
+
+      <td style="text-align: center;"><%= average.round(2)%></td>
+
+
+
+
+
+
+      <%
+      array = @speciality.mark
+      sum = 0
+      num = 0
+      index = 0
+      i = 0
+      a = 0
+      for i in array
+
+        if index + 1 % 6 != 0
+          if (index - 4) % 6 == 0
+            sum += i.to_i
+            num += 1
+            
+          end
+        end
+        index += 1
+      end
+      average = sum/num.to_f
+      %>
+
+
+      <td style="text-align: center;"><%= average.round(2)%></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<%if current_user.role == 'expert'%>
+	<%= link_to 'Назад', specialities_path, class: "backbtn" %>
+<%else%>
+	<%= link_to 'Назад', spec_list_path, class: "backbtn" %>
+<%end%>
+
+<%= link_to "Скачать в Excel", speciality_url(@speciality , :format => :xlsx), class: "excelbtn"  %>

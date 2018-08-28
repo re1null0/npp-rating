@@ -1,0 +1,55 @@
+<div class="center">
+
+  <% 
+     url = request.original_url
+     uri = URI::parse(url)
+     params = CGI::parse(uri.query)
+     name = params['name']
+
+     university = params['university']
+   %>
+
+
+   <% @uni = University.new()
+    @uni = University.where(["id = ?", university]).first%>
+
+    <% @spec = SpecialityPull.new()
+    @spec = SpecialityPull.where(["key = ?", name]).first%>
+
+   <p style="text-align: left;">
+	<strong><br/><br/>Список добавленных дисциплин в <%= @uni.name + ' на специальности "' + @spec.name + '"'%></strong>
+</p>
+<% @disciplines = Discipline.where(["university = ?", university]) %>
+<% @disciplines = @disciplines.where(["speciality = ?", name]) %>
+<div class="majors">
+<table align="left">
+  <thead>
+    <tr>
+      <th>Название дисцпилины</th>
+      <th>Почта координатора</th>
+      <th>Силлабус</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disciplines.each do |discipline| %>
+      <tr>
+      	<%	@dis = Discipline.new	%>
+      	<%	@dis = discipline	%>
+
+        <td><%= @dis.name %></td>
+        <td><%= @dis.user %></td>
+        <td><%= link_to "Силлабус", discipline.syllabus.url(:original, false), target: '_blank' %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<%= link_to "Скачать в Excel", dis_of_uni_path(:university => @uni.id , :name => @spec.key, :format => :xlsx), class: "excelbtn" %>
+  <%= link_to "Назад", spec_list_path, class: "backbtn" %>
+
+
+</div>

@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+<h1><%= @uni.name + ", кафедра " + @spec.name %></h1>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>ФИО преподавателей кафедры</th>
+      <th>Наименование преподаваемых дисциплин</th>
+      <th>Вид работы</th>
+      <th>Наличие практического опыта (вне структуры ВУЗов по специальности) работы (да/нет)</th>
+      <th>Общее количество практического опыта вне структуры ВУЗов по специальности, месяцев</th>
+      <th>Место работы вне структуры ВУЗов по специальности</th>
+      <th>В штате или нет?</th>
+      <th>Резюме</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @psostavs = @psostavs.where(["university = ?", university[0]]) %>
+    <% @psostavs.each do |psostav| %>
+      <tr>
+        <td><%= psostav.fio %></td>
+        <td><%= psostav.dis %></td>
+        <td><%= psostav.vid %></td>
+        <td><%= psostav.opit %></td>
+        <td><%= psostav.kolvo %></td>
+        <td><%= psostav.mesto %></td>
+        <td><%= psostav.shtat %></td>
+        
+
+        <td><%= link_to "Открыть", psostav.sostav.url(:original, false), target: :_blank %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+<% if current_user.role == 'coordinator' %>
+  <%= link_to 'Добавить', new_psostav_path(:university => university[0]), class: "addbtn" %>
+  <%= link_to 'Назад', @uni, class: "backbtn" %>
+<%else%>
+  <%= link_to 'Назад', vuz_list_path, class: "backbtn"  %>
+<%end%>
+
+<%= link_to "Скачать в Excel", psostavs_path(:university => @uni.id , :format => :xlsx), class: "excelbtn"  %>

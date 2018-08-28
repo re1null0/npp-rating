@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  university: MyString
+  zayav1: 1
+  pod1: 1
+  zayav2: 1
+  pod2: 1
+  zayav3: 1
+  pod3: 1
+  zayav4: 1
+  pod4: 1
+  zayav5: 1
+  pod5: 1
+  year1: 1
+  year2: 1
+  year3: 1
+  year4: 1
+  year5: 1
+
+two:
+  university: MyString
+  zayav1: 1
+  pod1: 1
+  zayav2: 1
+  pod2: 1
+  zayav3: 1
+  pod3: 1
+  zayav4: 1
+  pod4: 1
+  zayav5: 1
+  pod5: 1
+  year1: 1
+  year2: 1
+  year3: 1
+  year4: 1
+  year5: 1

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Дисциплина</Data></Cell>
+        <Cell><Data ss:Type="String">ВУЗ</Data></Cell>
+        <Cell><Data ss:Type="String">Код специальности</Data></Cell>
+        <Cell><Data ss:Type="String">Специальность</Data></Cell>
+        <Cell><Data ss:Type="String">Координатор (почта)</Data></Cell>
+        <Cell><Data ss:Type="String">Координатор (имя)</Data></Cell>
+        <Cell><Data ss:Type="String">МОП </Data></Cell>
+        <Cell><Data ss:Type="String">МОП (размер)</Data></Cell>
+        <Cell><Data ss:Type="String">МОП (дата загрузки)</Data></Cell>
+        <Cell><Data ss:Type="String">КЭД </Data></Cell>
+        <Cell><Data ss:Type="String">КЭД (размер)</Data></Cell>
+        <Cell><Data ss:Type="String">КЭД (дата загрузки)</Data></Cell>
+        <Cell><Data ss:Type="String">Силлабус </Data></Cell>
+        <Cell><Data ss:Type="String">Силлабус (размер)</Data></Cell>
+        <Cell><Data ss:Type="String">Силлабус (дата загрузки)</Data></Cell>
+        <Cell><Data ss:Type="String">РУП </Data></Cell>
+        <Cell><Data ss:Type="String">РУП (размер)</Data></Cell>
+        <Cell><Data ss:Type="String">РУП (дата загрузки)</Data></Cell>
+      </Row>
+
+    <% @disciplines = Discipline.all %>
+    <% @disciplines.each do |discipline| %>
+      <% @uni = University.where(["id = ?", discipline.university]).first%>
+
+      <% @spec = SpecialityPull.where(["key = ?", discipline.speciality]).first%>
+
+      <% @coo = User.where(["email = ?", discipline.user]).first%>
+      <Row>
+        <Cell><Data ss:Type="String"><%= discipline.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @uni.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @uni.speciality %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @spec.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= discipline.user %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @coo.name %></Data></Cell>
+
+        <%if @uni.mop_file_size != nil%>
+            <Cell><Data ss:Type="String"><%= link_to "МОП", @uni.mop.url(:original, false), target: :_blank %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= @uni.mop_file_size/1000.0 %> кб</Data></Cell>
+            <Cell><Data ss:Type="String"><%= @uni.mop_updated_at %></Data></Cell>
+        <%else%>
+            <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+            <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+            <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+        <%end%>
+
+        <%if @uni.ked_file_size != nil%>
+          <Cell><Data ss:Type="String"><%= link_to "КЭД", @uni.ked.url(:original, false), target: :_blank %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= @uni.ked_file_size/1000.0 %> кб</Data></Cell>
+          <Cell><Data ss:Type="String"><%= @uni.ked_updated_at %></Data></Cell>
+        <%else%>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+        <%end%>
+
+
+        <%if discipline.syllabus_file_size != nil%>
+          <Cell><Data ss:Type="String"><%= link_to "Силлабус", discipline.syllabus.url(:original, false), target: :_blank %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= discipline.syllabus_file_size/1000.0 %> кб</Data></Cell>
+          <Cell><Data ss:Type="String"><%= discipline.syllabus_updated_at %></Data></Cell>
+        <%else%>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+        <%end%>
+
+        <%if @uni.rup_file_size != nil%>
+          <Cell><Data ss:Type="String"><%= link_to "РУП", @uni.rup.url(:original, false), target: :_blank %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= @uni.rup_file_size/1000.0 %> кб</Data></Cell>
+          <Cell><Data ss:Type="String"><%= @uni.rup_updated_at %></Data></Cell>
+        <%else%>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+          <Cell><Data ss:Type="String"><%="Не загружено"%></Data></Cell>
+        <%end%>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+

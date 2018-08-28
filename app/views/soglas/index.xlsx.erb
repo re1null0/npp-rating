@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    university = params['university']
+    
+   %>
+<% @uni = University.new()
+@uni = University.where(["id = ?", university[0]]).first%>
+<% @spec = SpecialityPull.where(["key = ?", @uni.speciality]).first%>
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Наименование ассоциации или работодателя, с которым было согласовано</Data></Cell>
+        <Cell><Data ss:Type="String">Наименование согласованного документа</Data></Cell>
+        <Cell><Data ss:Type="String">Дата согласования</Data></Cell>
+        <Cell><Data ss:Type="String">Вид подтверждающего документа</Data></Cell>
+        <Cell><Data ss:Type="String">Документ</Data></Cell>
+      </Row>
+
+    <% @soglas = @soglas.where(["university = ?", university[0]]) %>
+    <% @soglas.each do |sogla| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= sogla.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= sogla.doc  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= sogla.date.strftime('%d - %m - %Y') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= sogla.vid %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Открыть", sogla.soglas.url(:original, false), target: :_blank %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ВУЗ</Data></Cell>
+        <Cell><Data ss:Type="String">Специальность</Data></Cell>
+        <Cell><Data ss:Type="String">Просмотр дисциплин</Data></Cell>
+        <Cell><Data ss:Type="String">Оценен</Data></Cell>
+        <Cell><Data ss:Type="String">Эксперт</Data></Cell>
+      </Row>
+
+    <% @spec = Discipline.group(:university, :speciality) %>
+    <% @spec.each do |speciality| %>
+       <% @uni = University.where(["id = ?", speciality.university]).first%>
+
+    <% @spec = SpecialityPull.where(["key = ?", speciality.speciality]).first%>
+
+    <%  @coo = User.where(["email = ?", speciality.user]).first%>
+
+    <% @Speci = Speciality.where(["name = ?", speciality.speciality])
+    if @Speci != nil
+      @Speciality = @Speci.where(["university = ?", @uni.key]).first
+    else
+      @Speciality = @Speci
+    end %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= @uni.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @spec.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= link_to "Дисциплины", dis_of_uni_path(:university => speciality.university , :name => @spec.key) %></Data></Cell>
+
+        <% if @Speciality == nil %>
+          <Cell><Data ss:Type="String"><%= link_to "Дать доступ эксперту", new_speciality_path(:university => @uni.key , :name => @spec.key) %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= "нет эксперта" %></Data></Cell>
+        <%else%>
+            <% if @Speciality.mark.size == 0 %>
+              <Cell><Data ss:Type="String"><%= "не оценен"  %></Data></Cell>
+            <%else%>
+              <Cell><Data ss:Type="String"><%= link_to "Оценка", speciality_path(@Speciality) %></Data></Cell>
+            <%end%>
+          <Cell><Data ss:Type="String"><%= @Speciality.email %></Data></Cell>
+        <%end%>
+
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+
+

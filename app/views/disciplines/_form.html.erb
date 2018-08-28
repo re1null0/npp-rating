@@ -1,0 +1,83 @@
+<%= form_with(model: @discipline, local: true) do |form| %>
+  <% if @discipline.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@discipline.errors.count, "error") %> prohibited this discipline from being saved:</h2>
+
+      <ul>
+      <% @discipline.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+
+  <% 
+    url = request.original_url
+    uri = URI::parse(url)
+    params = CGI::parse(uri.query)
+    speciality = params['speciality']
+    university = params['university']
+    @uni = University.where(["id = ?", university[0]]).first
+   %>
+   
+
+  <div class="field">
+    <%= form.label "Почта координатора" %>
+    <%= current_user.email%>
+    <%= form.hidden_field :user,  class: 'form-control', value: current_user.email %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label "ВУЗ" %>
+    <%= current_user.workplace%>
+    <%= form.hidden_field :university,  class: 'form-control', value: university[0] %>
+  </div>
+
+  
+
+
+  <div class="field">
+    <%= form.label "Специальность" %>
+    <% @spec = SpecialityPull.where(["key = ?", speciality[0]]).first%>
+    <%= @spec.name + " " +speciality[0]   %>
+    <%= form.hidden_field :speciality, value: speciality[0] %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Название дисциплины" %>
+    <%= form.text_field :name,   class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Цикл" %>
+     <%= form.select :cycle, [["БД", "БД"], ["ОК", "ОК"],["КВ", "КВ"],["ПД", "ПД"], ["ДВ", "ДВ"],["ПП","ПП"],["НИРМ","НИРМ"],["ОиЗМД",""],["ИА","ИА"],["КЭ","КЭ"]], {}, {class: "form-control"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Количество кредитов" %>
+    <%= form.number_field :credits,   class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Семестр" %>
+    <%= form.number_field :sem,   class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Курс" %>
+    <%= form.number_field :course,   class: 'form-control' %>
+  </div>
+
+  <%= form.label "Силлабус" %>
+  <%= form.file_field :syllabus,   class: 'form-control' %>
+
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+<%= link_to 'Назад', @uni %>
+<% end %>

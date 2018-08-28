@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fio: MyString
+  iin: MyString
+  dob: 2018-08-06 01:47:59
+  otd: MyString
+  forma: MyString
+  gender: MyString
+  mob: MyString
+
+two:
+  fio: MyString
+  iin: MyString
+  dob: 2018-08-06 01:47:59
+  otd: MyString
+  forma: MyString
+  gender: MyString
+  mob: MyString

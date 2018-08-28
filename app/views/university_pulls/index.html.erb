@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Список ВСЕХ ВУЗов</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Код</th>
+      <th>Наименование</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @university_pulls.each do |university_pull| %>
+      <tr>
+        <td><%= university_pull.key %></td>
+        <td><%= university_pull.name %></td>
+        <td><%= link_to 'Открыть', university_pull %></td>
+        <td><%= link_to 'Изменить', edit_university_pull_path(university_pull) %></td>
+        <td><%= link_to 'Удалить', university_pull, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to "Скачать в Excel", university_pulls_path(:format => :xlsx), class: "excelbtn" %>
+<br>
+<div style="width: 300px;margin-top: -36px;">
+<%= link_to 'Добавить', new_university_pull_path, class: "addbtn" %>
+<br>
+<%= link_to 'Назад', panel_path, class: "backbtn" %>
+</div>

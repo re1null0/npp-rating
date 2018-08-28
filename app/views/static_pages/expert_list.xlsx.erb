@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Имя эксперта</Data></Cell>
+        <Cell><Data ss:Type="String">Место работы эксперта</Data></Cell>
+        <Cell><Data ss:Type="String">Почта эксперта</Data></Cell>
+        <Cell><Data ss:Type="String">Эксперт создан</Data></Cell>
+      </Row>
+
+    <% @expert = User.where(["role = ?", "expert"]) %>
+    <% @expert.each do |expert| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= expert.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= expert.workplace %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= expert.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= expert.created_at %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+
+

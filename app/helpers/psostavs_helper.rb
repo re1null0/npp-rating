@@ -1,0 +1,2 @@
+module PsostavsHelper
+end

@@ -1,0 +1,51 @@
+<h1>Добавление документов</h1>
+
+<%= form_with(model: @university, local: true) do |form| %>
+  <% if @university.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@university.errors.count, "error") %> prohibited this university from being saved:</h2>
+
+      <ul>
+      <% @university.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :key %>
+    <%  user = current_user() 
+      @uni = UniversityPull.where(["key = ?", user.workplace]).first
+
+    %>
+    <%= @uni.key%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Наименования ВУЗа" %>
+    <%= @uni.name%>
+  </div>
+
+  <div class="field">
+    <%= form.label "Специальность" %>
+    <% @spec = SpecialityPull.where(["key = ?", @university.speciality]).first %>
+    <%= @spec.name%>
+  </div>
+
+  <%= form.label "Модуль образовательных программ" %>
+  <%= form.file_field :mop %>
+
+  <%= form.label "Каталог элективных дисциплин" %>
+  <%= form.file_field :ked %>
+
+  <%= form.label "Рабочий учебный план" %>
+  <%= form.file_field :rup %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Назад', @university, class: "backbtn" %> 

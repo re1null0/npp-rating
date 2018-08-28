@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ВУЗ</Data></Cell>
+        <Cell><Data ss:Type="String">Специальность</Data></Cell>
+        <Cell><Data ss:Type="String">Создан</Data></Cell>
+        <Cell><Data ss:Type="String">Согласование</Data></Cell>
+        <Cell><Data ss:Type="String">ППС</Data></Cell>
+        <Cell><Data ss:Type="String">Аккредитация</Data></Cell>
+        <Cell><Data ss:Type="String">Инвестиции</Data></Cell>
+        <Cell><Data ss:Type="String">Выпускники</Data></Cell>
+
+
+      </Row>
+    <% @u = University.all %>
+    <% @u.each do |university| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= university.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= university.speciality %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= university.created_at %></Data></Cell>
+
+        <% @sog = Sogla.new()
+        @sog = Sogla.where(["university = ?", university.id]).first%>
+        <% if @sog != nil%>
+           <Cell><Data ss:Type="String"><%=  link_to "Посмотреть", soglas_path(:university => university.id) %></Data></Cell>
+        <% else%>
+            <Cell><Data ss:Type="String"><%= "не загружено" %></Data></Cell>
+        <%end%>
+
+        <% @sos = Psostav.new()
+          @sos = Psostav.where(["university = ?", university.id]).first%>
+        <% if @sos != nil%>
+           <Cell><Data ss:Type="String"><%=  link_to "Посмотреть", psostavs_path(:university => university.id) %></Data></Cell>
+        <% else%>
+            <Cell><Data ss:Type="String"><%= "не загружено" %></Data></Cell>
+        <%end%>
+
+        <% @cre = Credit.new()
+           @cre = Credit.where(["university = ?", university.id]).first%>
+        <% if @cre != nil%>
+           <Cell><Data ss:Type="String"><%=  link_to "Посмотреть", credits_path(:university => university.id) %></Data></Cell>
+        <% else%>
+            <Cell><Data ss:Type="String"><%= "не загружено" %></Data></Cell>
+        <%end%>
+
+
+        <% @inv = Invest.new()
+          @inv = Invest.where(["university = ?", university.id]).first%>
+        <% if @inv != nil%>
+           <Cell><Data ss:Type="String"><%=  link_to "посмотреть", invests_path(:university => university.id) %></Data></Cell>
+        <% else%>
+            <Cell><Data ss:Type="String"><%= "не загружено" %></Data></Cell>
+        <%end%>
+
+        <% @gr = Grad.new()
+          @gr = Grad.where(["university = ?", university.id]).first%>
+        <% if @gr != nil%>
+           <Cell><Data ss:Type="String"><%=   link_to "посмотреть", grads_path(:university => university.id) %></Data></Cell>
+        <% else%>
+            <Cell><Data ss:Type="String"><%= "не загружено" %></Data></Cell>
+        <%end%>
+
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+
+

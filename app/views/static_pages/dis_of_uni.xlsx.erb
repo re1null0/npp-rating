@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Название дисциплины</Data></Cell>
+        <Cell><Data ss:Type="String">Почта координатора</Data></Cell>
+        <Cell><Data ss:Type="String">Силлабус</Data></Cell>
+      </Row>
+      <% 
+         url = request.original_url
+         uri = URI::parse(url)
+         params = CGI::parse(uri.query)
+         name = params['name']
+
+         university = params['university']
+       %>
+
+
+       <% @uni = University.where(["id = ?", university[0]]).first%>
+
+      <% @spec = SpecialityPull.where(["key = ?", name[0]]).first%>
+      <% @disciplines = Discipline.where(["university = ?", university[0]]) %>
+      <% @disciplines = @disciplines.where(["speciality = ?", name[0]]) %>
+
+    <% @disciplines.each do |discipline| %>
+      <Row>
+        <%  @dis = Discipline.new %>
+        <%  @dis = discipline %>
+
+        <Cell><Data ss:Type="String"><%= @dis.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= @dis.user %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=link_to "Силлабус", discipline.syllabus.url(:original, false), target: '_blank' %></Data></Cell>
+      
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+
