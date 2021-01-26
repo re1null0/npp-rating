@@ -1,24 +1,11 @@
-# README
+# Curriculum-exchange website for the National Chamber of Entreprenurs 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This website was designed during Method Pro 2018 internship. 
 
-Things you may want to cover:
+## Description
 
-* Ruby version
+A website has standard roles for sign-up and according obligations of each user type. Admin can govern the whole system, whilst, teachers (it's up to the developer) upload files depending on their current workplace. Later, uploaded files are received by moderators, who give an evaluation to the curriculum novelty.
 
-* System dependencies
+### Project
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The website backend is written using Ruby language. For the front-end was used simple HTML/CSS/JS.
